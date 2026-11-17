@@ -344,7 +344,7 @@ button.kpi:hover { border-color: var(--line-strong); transform: translateY(-1px)
 .badge.bad::before { content: "✕"; }
 .badge.warn::before { content: "!"; }
 
-/* ------------------------------------------------ gallery ("base foto") */
+/* ------------------------------------------------ gallery ("galeria de produtos") */
 .page-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
 .page-kpis.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 .page-kpis .value { font-size: 24px; }
