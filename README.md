@@ -8,32 +8,6 @@
 
 > **Projeto de portfólio. Marca, dados e código fictícios, gerados sinteticamente; não contém código, dados, fotos ou logos de nenhuma empresa.**
 
-## English summary
-
-**Inventory Flow Analytics** is a static, client-side dashboard that shows how stock moves through a retail network
-(distribution centers, receiving area, in-transit and stores) for a fictional brand, **Demo Retail Co.**
-
-Everything is generated in the browser by a **seeded, deterministic** synthetic data generator (`js/data.js`) that builds an
-inventory **star schema** in memory. The app then computes the analytics on the fly:
-
-- **Stock aging**: available pieces bucketed by days since the SKU's last purchase receipt (0–30, 31–60, 61–90, 91–180, 181–365, 365+, pre-launch).
-- **Coverage (days of cover)**: stock on hand ÷ average daily sales over the last 3 months.
-- **Turnover**: annualized cost of goods sold (12 months) ÷ average stock at cost.
-- **Top 10**: models ranked by stock value, 3-month sales, highest coverage or lowest turnover.
-- **Validation against the source**: totals on the fact table vs. what the "source system" reports, plus data-quality rules,
-  with OK / warning / fail badges. A few realistic discrepancies are planted on purpose so the checks have something to find.
-
-Filters (category, subcategory, line, collection, price band, product status, region, location type, location, SKU text) and the
-reference month change every number and are kept in the URL. Tables export to CSV in the browser.
-
-**Run it:** download or clone the folder and double-click `index.html`. No build, no server, no backend.
-It also works as-is on GitHub Pages (all paths are relative). Chart.js 4.4.1 (cdnjs) and the Geist font (Google Fonts) are
-loaded from CDNs; without internet the page still works and the charts fall back to their "Ver tabela" tables.
-
-Stack: plain HTML + CSS + JavaScript (no framework), Chart.js for charts.
-
----
-
 ## Resumo em português
 
 **Inventory Flow Analytics** é um painel estático (só front-end) que mostra o fluxo de estoque de uma rede de varejo fictícia,
@@ -187,3 +161,31 @@ dim_product (SKU) — fact_stock / fact_movement — dim_store (CD, recebimento,
 Qualquer semelhança com marcas, lojas ou produtos reais é coincidência.
 
 Licença: [MIT](LICENSE).
+
+---
+
+## English summary
+
+**Inventory Flow Analytics** is a static, client-side dashboard that shows how stock moves through a retail network
+(distribution centers, receiving area, in-transit and stores) for a fictional brand, **Demo Retail Co.**
+
+Everything is generated in the browser by a **seeded, deterministic** synthetic data generator (`js/data.js`) that builds an
+inventory **star schema** in memory. The app then computes the analytics on the fly:
+
+- **Stock aging**: available pieces bucketed by days since the SKU's last purchase receipt (0–30, 31–60, 61–90, 91–180, 181–365, 365+, pre-launch).
+- **Coverage (days of cover)**: stock on hand ÷ average daily sales over the last 3 months.
+- **Turnover**: annualized cost of goods sold (12 months) ÷ average stock at cost.
+- **Top 10**: models ranked by stock value, 3-month sales, highest coverage or lowest turnover.
+- **Validation against the source**: totals on the fact table vs. what the "source system" reports, plus data-quality rules,
+  with OK / warning / fail badges. A few realistic discrepancies are planted on purpose so the checks have something to find.
+
+Filters (category, subcategory, line, collection, price band, product status, region, location type, location, SKU text) and the
+reference month change every number and are kept in the URL. Tables export to CSV in the browser.
+
+**Run it:** download or clone the folder and double-click `index.html`. No build, no server, no backend.
+It also works as-is on GitHub Pages (all paths are relative). Chart.js 4.4.1 (cdnjs) and the Geist font (Google Fonts) are
+loaded from CDNs; without internet the page still works and the charts fall back to their "Ver tabela" tables.
+
+Stack: plain HTML + CSS + JavaScript (no framework), Chart.js for charts.
+
+---
