@@ -619,7 +619,7 @@
     const val = validate(S.ref);
     const issues = val.warn + val.bad;
     document.getElementById("nav").innerHTML = `<div class="nav-module">
-      <div class="nav-head"><i class="dot" aria-hidden="true"></i><span>Estoque Central</span></div>
+      <div class="nav-head"><i class="dot" aria-hidden="true"></i><span>Gestão de Estoque</span></div>
       ${PAGES.map(p => `<a href="${hashFor(p.id)}" data-page="${p.id}" class="${p.id === S.page ? "active" : ""}" title="${esc(p.title)}">
         <svg class="icon" viewBox="0 0 24 24">${p.icon}</svg><span>${esc(p.title)}</span>
         ${p.id === "validacao" && issues ? `<em class="nav-badge" title="Verificações com atenção ou falha">${issues}</em>` : ""}</a>`).join("")}
@@ -764,10 +764,10 @@
       <button class="kpi" data-go="visao-geral" data-anchor="vg-coverage" title="Ver cobertura por categoria"><h3>Cobertura · dias</h3>
         <div class="value">${t.coverage == null ? "–" : fmt.int(t.coverage)} <small>dias</small></div>
         <div class="rows"><div><span>Lojas</span><b>${fmt.days(lojas && lojas.coverage)}</b></div><div><span>CDs (vs. venda da rede)</span><b>${cds && t.sales3 ? fmt.days(cds.qty / (t.sales3 / t.days3)) : "–"}</b></div></div></button>
-      <button class="kpi" data-go="colecoes" title="Ver giro por linha"><h3>Giro · 12 meses</h3>
+      <button class="kpi" data-go="linhas" title="Ver giro por linha"><h3>Giro · 12 meses</h3>
         <div class="value">${fmt.turn(t.turnover)}</div>
         <div class="foot">CMV ${fmt.moneyShort(t.cogs12 * (12 / t.months))} ÷ estoque médio ${fmt.moneyShort(t.avgCost12)}</div></button>
-      <button class="kpi" data-go="base-foto" data-age="3" title="Ver produtos acima de 90 dias"><h3>Acima de 90 dias · disponível</h3>
+      <button class="kpi" data-go="galeria" data-age="3" title="Ver produtos acima de 90 dias"><h3>Acima de 90 dias · disponível</h3>
         <div class="value">${fmt.pct(totalAvail ? over90 / totalAvail : null, 0)}</div>
         <div class="meter"><div style="width:${totalAvail ? (over90 / totalAvail) * 100 : 0}%"></div></div>
         <div class="foot">${fmt.int(over90)} peças · ${fmt.int(pre)} em pré-lançamento</div></button>
