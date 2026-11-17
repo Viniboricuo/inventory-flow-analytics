@@ -143,7 +143,7 @@
       { store_key: 0, code: "CD01", name: "CD Central", type: "CD", type_label: "Centro de distribuição", region: "Sudeste", format: "CD", size: 0 },
       { store_key: 1, code: "CD02", name: "CD Sul", type: "CD", type_label: "Centro de distribuição", region: "Sul", format: "CD", size: 0 },
       { store_key: 2, code: "CD03", name: "CD Nordeste", type: "CD", type_label: "Centro de distribuição", region: "Nordeste", format: "CD", size: 0 },
-      { store_key: 3, code: "RC01", name: "CD Central · Recebimento", type: "RECEB", type_label: "Recebimento (não alocado)", region: "Sudeste", format: "CD", size: 0 },
+      { store_key: 3, code: "RC01", name: "CD Central · Recebimento", type: "RECEB", type_label: "Recebimento (pendente de alocação)", region: "Sudeste", format: "CD", size: 0 },
       { store_key: 4, code: "TR01", name: "Em trânsito", type: "TRANSITO", type_label: "Em trânsito", region: "—", format: "—", size: 0 },
     ];
     const CD_OF_REGION = { Sudeste: 0, Sul: 1, Nordeste: 2, "Centro-Oeste": 0, Norte: 0 };
