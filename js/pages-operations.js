@@ -10,7 +10,7 @@
   const loc = i => App.db.dim_store[App.db.fact_stock.store_key[i]];
   const sum = (arr, f) => arr.reduce((a, x) => a + f(x), 0);
 
-  // ============================================================== BASE FOTO (gallery with neutral placeholders)
+  // ============================================================== GALERIA DE PRODUTOS (gallery with neutral placeholders)
   const AGE_OPTIONS = [["", "Todas as idades"], ["0-0", "0–30 dias"], ["1-1", "31–60 dias"], ["2-2", "61–90 dias"], ["3-3", "91–180 dias"],
     ["4-4", "181–365 dias"], ["5-5", "Mais de 365 dias"], ["3-5", "Acima de 90 dias"], ["4-5", "Acima de 180 dias"], ["6-6", "Pré-lançamento"]];
   const bf = { q: "", sort: "qty", cat: "*", age: "", onlyAvail: false, shown: 48 };
@@ -124,19 +124,19 @@
       rows.push({ model: p.model, sku: p.sku, name: p.model_name, color: p.color, category: p.category, line: p.line, collection: p.collection, launch: p.launch_date,
         local: s.name, type: s.type_label, region: s.region, qty: F().qty_on_hand[i], avail: F().qty_on_hand[i] - F().qty_reserved[i] - F().qty_blocked[i], cost: F().cost_value[i] });
     }
-    App.downloadCsv("base_foto", [{ k: "model", label: "Modelo" }, { k: "sku", label: "SKU" }, { k: "name", label: "Nome" }, { k: "color", label: "Cor" }, { k: "category", label: "Categoria" },
+    App.downloadCsv("galeria_produtos", [{ k: "model", label: "Modelo" }, { k: "sku", label: "SKU" }, { k: "name", label: "Nome" }, { k: "color", label: "Cor" }, { k: "category", label: "Categoria" },
       { k: "line", label: "Linha" }, { k: "collection", label: "Coleção" }, { k: "launch", label: "Lançamento" }, { k: "local", label: "Local" }, { k: "type", label: "Tipo de local" },
       { k: "region", label: "Região" }, { k: "qty", label: "Peças", type: "int" }, { k: "avail", label: "Disponível", type: "int" }, { k: "cost", label: "Custo" }], rows);
   }
 
   App.page({
-    id: "base-foto", order: 5, title: "Base Foto",
+    id: "galeria", order: 5, title: "Galeria de Produtos",
     subtitle: () => `Galeria de modelos com estoque em ${db().dim_date[S.ref].label} · clique num card para ver o detalhe`,
     icon: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
     render: renderGallery,
   });
 
-  // ============================================================== NÃO ALOCADO
+  // ============================================================== PENDENTE DE ALOCAÇÃO
   const STATUS = ["Pendente", "Em análise", "Alocar", "Devolver ao fornecedor"];
   const na = { q: "", status: "*", open: new Set() };
   const statusKey = () => "ifa-na-status-" + S.seed;
@@ -181,7 +181,7 @@
 
     el.innerHTML = `
       <div class="page-kpis six">
-        <div class="kpi"><h3>Peças não alocadas</h3><div class="value">${fmt.int(pieces)}</div><div class="foot">na área de recebimento do CD</div></div>
+        <div class="kpi"><h3>Peças pendentes de alocação</h3><div class="value">${fmt.int(pieces)}</div><div class="foot">na área de recebimento do CD</div></div>
         <div class="kpi"><h3>Modelos</h3><div class="value">${fmt.int(new Set(items.map(x => x.model)).size)}</div><div class="foot">${fmt.int(items.length)} SKUs</div></div>
         <div class="kpi"><h3>Custo parado</h3><div class="value">${fmt.moneyShort(cost)}</div><div class="foot">a custo do mês</div></div>
         <div class="kpi"><h3>Dias médios</h3><div class="value">${pieces ? fmt.int(sum(items, x => x.days * x.qty) / pieces) : "–"}</div><div class="foot">ponderado por peças</div></div>
@@ -228,7 +228,7 @@
               <td class="l">${esc(x.name)}<small>${esc(x.category)}</small></td><td class="l">${esc(x.collection)}</td>
               <td>${fmt.int(x.qty)}</td><td>${fmt.money(x.cost)}</td><td>${dayBadge(x.days)}</td>
               <td><select data-sku="${esc(x.sku)}" aria-label="Status">${STATUS.map(s => `<option ${s === x.status ? "selected" : ""}>${s}</option>`).join("")}</select></td></tr>`).join("") : "");
-        }).join("") || `<tr><td class="empty" colspan="8">Nenhum item não alocado com esses filtros.</td></tr>`}</tbody>
+        }).join("") || `<tr><td class="empty" colspan="8">Nenhum item pendente de alocação com esses filtros.</td></tr>`}</tbody>
         ${list.length ? `<tfoot><tr class="total"><td class="l" colspan="4">Total</td><td>${fmt.int(sum(list, x => x.qty))}</td><td>${fmt.money(sum(list, x => x.cost))}</td><td></td><td></td></tr></tfoot>` : ""}
       </table></div>`;
       return list;
@@ -261,12 +261,12 @@
       e.target.textContent = all ? "Recolher tudo" : "Expandir tudo";
       current = draw();
     };
-    el.querySelector("#na-csv").onclick = () => App.downloadCsv("nao_alocado", [{ k: "line", label: "Linha" }, { k: "sku", label: "SKU" }, { k: "name", label: "Modelo" }, { k: "color", label: "Cor" },
+    el.querySelector("#na-csv").onclick = () => App.downloadCsv("pendentes_alocacao", [{ k: "line", label: "Linha" }, { k: "sku", label: "SKU" }, { k: "name", label: "Modelo" }, { k: "color", label: "Cor" },
       { k: "category", label: "Categoria" }, { k: "collection", label: "Coleção" }, { k: "qty", label: "Peças", type: "int" }, { k: "cost", label: "Custo" }, { k: "days", label: "Dias sem alocação", type: "int" }, { k: "status", label: "Status" }], current);
   }
 
   App.page({
-    id: "nao-alocado", order: 6, title: "Não Alocado",
+    id: "pendentes", order: 6, title: "Pendente de Alocação",
     subtitle: () => `Peças recebidas no CD e ainda não liberadas para alocação · ${db().dim_date[S.ref].label}`,
     icon: '<path d="M21 8 12 3 3 8v8l9 5 9-5V8Z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
     render: renderUnallocated,
