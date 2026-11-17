@@ -44,12 +44,12 @@
     }
     const out = [];
     const topOld = [...byCatOld.entries()].sort((a, b) => b[1] - a[1])[0];
-    if (topOld && oldTotal) out.push({ txt: `${topOld[0]} concentra ${fmt.pct(topOld[1] / oldTotal, 0)} das peças com mais de 180 dias`, sub: `${fmt.int(oldTotal)} peças disponíveis acima de 180 dias`, go: () => { App.galleryAge = "4-5"; App.go("base-foto"); } });
+    if (topOld && oldTotal) out.push({ txt: `${topOld[0]} concentra ${fmt.pct(topOld[1] / oldTotal, 0)} das peças com mais de 180 dias`, sub: `${fmt.int(oldTotal)} peças disponíveis acima de 180 dias`, go: () => { App.galleryAge = "4-5"; App.go("galeria"); } });
     const byLine = App.analyze(i => sku(i).line, m);
     const lineCov = [...byLine.entries()].filter(([, a]) => a.coverage != null && a.qty > 50).sort((a, b) => b[1].coverage - a[1].coverage)[0];
-    if (lineCov) out.push({ txt: `${lineCov[0]}: ${fmt.int(lineCov[1].coverage)} dias de cobertura`, sub: `maior cobertura entre as linhas · giro ${fmt.turn(lineCov[1].turnover)}`, go: () => App.go("colecoes") });
+    if (lineCov) out.push({ txt: `${lineCov[0]}: ${fmt.int(lineCov[1].coverage)} dias de cobertura`, sub: `maior cobertura entre as linhas · giro ${fmt.turn(lineCov[1].turnover)}`, go: () => App.go("linhas") });
     const rec = App.analyze(i => (loc(i).type === "RECEB" ? 1 : null), m).get(1);
-    if (rec && rec.qty) out.push({ txt: `${fmt.moneyShort(rec.cost)} parados no recebimento`, sub: `${fmt.int(rec.qty)} peças ainda sem alocação`, go: () => App.go("nao-alocado") });
+    if (rec && rec.qty) out.push({ txt: `${fmt.moneyShort(rec.cost)} parados no recebimento`, sub: `${fmt.int(rec.qty)} peças ainda sem alocação`, go: () => App.go("pendentes") });
     const val = App.validate(m);
     out.push(val.bad + val.warn
       ? { txt: `${val.bad + val.warn} verificação(ões) pedem revisão`, sub: `${val.ok} de ${val.checks.length} conciliadas com a origem`, go: () => App.go("validacao") }
@@ -152,7 +152,7 @@
       </div>
 
       ${App.chartCard("vg-aging", "Aging · peças disponíveis por tempo desde a última entrada", {
-        note: "Idade = dias desde o último recebimento de compra do SKU (aproximação FIFO). Clique numa faixa para abrir esses produtos na Base Foto.", cls: "",
+        note: "Idade = dias desde o último recebimento de compra do SKU (aproximação FIFO). Clique numa faixa para abrir esses produtos na Galeria de Produtos.", cls: "",
         legend: App.legend(App.AGING.slice(0, 6).map((a, i) => [a, rampC[i]])),
         table: App.tableHtml([{ k: "c", label: "Categoria" }, ...App.AGING.map((a, i) => ({ k: "b" + i, label: a, type: "int" }))],
           cats.map(c => Object.assign({ c }, ...agingMat.get(c).map((v, i) => ({ ["b" + i]: v }))))),
@@ -197,7 +197,7 @@
       type: "bar",
       data: { labels: cats, datasets: App.AGING.slice(0, 6).map((a, b) => ({ label: a, data: cats.map(c => agingMat.get(c)[b]), backgroundColor: rampC[b], borderRadius: 3 })) },
       options: Object.assign(App.chartOptions({ horizontal: true, stacked: true }), {
-        onClick: (evt, els) => { if (!els.length) return; App.galleryAge = els[0].datasetIndex + "-" + els[0].datasetIndex; App.galleryCat = cats[els[0].index]; App.go("base-foto"); },
+        onClick: (evt, els) => { if (!els.length) return; App.galleryAge = els[0].datasetIndex + "-" + els[0].datasetIndex; App.galleryCat = cats[els[0].index]; App.go("galeria"); },
         onHover: (evt, els) => { evt.native.target.style.cursor = els.length ? "pointer" : "default"; },
       }),
     });
@@ -281,10 +281,10 @@
     render: renderOverview,
   });
 
-  // ============================================================== RESUMO X GRUPO
+  // ============================================================== MATRIZ DE FLUXO
   const rg = { metric: "qty", sel: null };
   const STAGES = [
-    { k: "receb", label: "Recebimento", hint: "não alocado" },
+    { k: "receb", label: "Recebimento", hint: "pendente de alocação" },
     { k: "cdav", label: "CD · disponível" },
     { k: "cdres", label: "CD · reservado" },
     { k: "cdblk", label: "CD · bloqueado", hint: "qualidade" },
@@ -419,13 +419,13 @@
   }
 
   App.page({
-    id: "resumo-grupo", order: 2, title: "Resumo x Grupo",
+    id: "matriz-fluxo", order: 2, title: "Matriz de Fluxo",
     subtitle: () => `Onde está o estoque: etapa do fluxo × categoria, regiões e lojas · ${db().dim_date[S.ref].label}`,
     icon: '<path d="M3 3v18h18"/><path d="M7 16v-5M12 16V7M17 16v-8"/>',
     render: renderGroups,
   });
 
-  // ============================================================== COLEÇÕES E TEMAS
+  // ============================================================== LINHAS E COLEÇÕES
   const ct = { cat: "*", rsCat: null };
   function renderCollections(el) {
     const D = db(), m = S.ref;
@@ -552,7 +552,7 @@
   }
 
   App.page({
-    id: "colecoes", order: 3, title: "Coleções e Temas",
+    id: "linhas", order: 3, title: "Linhas e Coleções",
     subtitle: () => `Linhas, coleções sazonais, aging e estoque em R$ · ${db().dim_date[S.ref].label}`,
     icon: '<path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5M2 12l10 5 10-5"/>',
     render: renderCollections,
