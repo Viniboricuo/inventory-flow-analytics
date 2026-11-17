@@ -54,11 +54,11 @@ lugar às tabelas ("Ver tabela").
 | Página | O que mostra |
 |---|---|
 | **Visão Geral** | destaques clicáveis, evolução do custo do estoque (ano atual × anterior), estoque acima de 180 dias, custo por categoria em 12 meses, peças × custo, aging por categoria, mapa de cobertura (faixa de preço / região / tipo de coleção) e **Top 10** |
-| **Resumo x Grupo** | mapa de calor *etapa do fluxo × categoria* (recebimento, CD disponível/reservado/bloqueado, trânsito, lojas) com detalhe por local, disponível por categoria e região, lojas por região (cobertura e giro) |
-| **Coleções e Temas** | estoque por linha, coleções sazonais fora da janela de venda e próximos lançamentos, dispersão cobertura × giro, aging por linha, estoque em R$ por categoria e subcategoria |
+| **Matriz de Fluxo** | mapa de calor *etapa do fluxo × categoria* (recebimento, CD disponível/reservado/bloqueado, trânsito, lojas) com detalhe por local, disponível por categoria e região, lojas por região (cobertura e giro) |
+| **Linhas e Coleções** | estoque por linha, coleções sazonais fora da janela de venda e próximos lançamentos, dispersão cobertura × giro, aging por linha, estoque em R$ por categoria e subcategoria |
 | **Histórico** | série mensal de estoque, vendas, recebimentos, cobertura e giro, por linha e período, com sparklines por linha |
-| **Base Foto** | galeria de modelos com estoque; as “fotos” são **ícones genéricos por categoria** (SVG), nunca fotos de produto; gaveta de detalhe por modelo |
-| **Não Alocado** | peças paradas no recebimento do CD, tempo sem alocação, impacto por categoria, lista agrupada por linha com status anotável (salvo só no navegador) |
+| **Galeria de Produtos** | galeria de modelos com estoque; as “fotos” são **ícones genéricos por categoria** (SVG), nunca fotos de produto; gaveta de detalhe por modelo |
+| **Pendente de Alocação** | peças paradas no recebimento do CD, tempo sem alocação, impacto por categoria, lista agrupada por linha com status anotável (salvo só no navegador) |
 | **Validação** | conciliação da fato com a origem (totais e % de diferença com tolerância ajustável), regras de qualidade e matriz categoria × mês |
 | **Exportação** | tabela dinâmica: escolha dimensões e medidas, ordene, filtre e baixe CSV |
 
@@ -178,8 +178,8 @@ dim_product (SKU) — fact_stock / fact_movement — dim_store (CD, recebimento,
 | `css/style.css` | tema claro/escuro por variáveis CSS, layout responsivo |
 | `js/data.js` | gerador determinístico do modelo estrela |
 | `js/core.js` | estado, filtros, motor de métricas (aging, cobertura, giro), validação, gráficos, tabelas, CSV, roteamento |
-| `js/pages-analysis.js` | Visão Geral, Resumo x Grupo, Coleções e Temas, Histórico |
-| `js/pages-operations.js` | Base Foto, Não Alocado, Validação, Exportação |
+| `js/pages-analysis.js` | Visão Geral, Matriz de Fluxo, Linhas e Coleções, Histórico |
+| `js/pages-operations.js` | Galeria de Produtos, Pendente de Alocação, Validação, Exportação |
 
 ### Aviso
 
