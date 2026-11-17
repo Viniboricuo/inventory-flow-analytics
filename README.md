@@ -1,5 +1,11 @@
 # Inventory Flow Analytics
 
+**▶ [Demo ao vivo](https://viniboricuo.github.io/inventory-flow-analytics/)** · Star Schema (2 fatos, 3 dimensões) · aging, cobertura e giro · validação contra a origem
+
+![Visão Geral do painel](docs/screenshot.jpg)
+
+**Em números:** ~91 mil linhas na fato agregadas no navegador em milissegundos · ~400 SKUs, 32 lojas e 3 CDs · 24 meses de histórico · 11 conciliações com a origem, com divergências plantadas para a validação encontrar
+
 > **Projeto de portfólio. Marca, dados e código fictícios, gerados sinteticamente; não contém código, dados, fotos ou logos de nenhuma empresa.**
 
 ## English summary
